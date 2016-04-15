@@ -13,6 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,6 +28,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -53,6 +60,13 @@ public class ForecastFragment extends Fragment {
                 //Toast.makeText(this.getContext(), "Refresh!!", Toast.LENGTH_SHORT).show();
                 FetchWeatherTask fetchWeatherTask=new FetchWeatherTask();
                 fetchWeatherTask.execute("94043");
+                break;
+            case R.id.action_date:
+                Calendar calendar = new GregorianCalendar(2016,Calendar.APRIL,15);
+                int result = calendar.get(Calendar.DAY_OF_WEEK);
+                Toast.makeText(this.getContext(), String.valueOf(result), Toast.LENGTH_SHORT).show();
+                break;
+
         }
         return true;
     }
@@ -183,6 +197,30 @@ public class ForecastFragment extends Fragment {
             Log.v("RETURNED STRING",forecastJsonStr);
             return null;
         }
+    }
+
+    private String formatHighLows(double high, double low){
+        long roundedHigh=Math.round(high);
+        long roundedLow = Math.round(low);
+
+        String highLowStr = roundedHigh+"/"+roundedLow;
+        return highLowStr;
+    }
+
+    private String[] getWeatherDataFromJson(String forecastJsonStr, int numDays) throws JSONException {
+
+        final String OWM_LIST="list";
+        final String OWM_WEATHER="weather";
+        final String OWM_TEMPERATURE = "temp";
+        final String OWM_MAX="max";
+        final String OWN_MIN="min";
+        final String OWM_DESCRIPTION="main";
+
+        JSONObject forecastJson= new JSONObject(forecastJsonStr);
+        JSONArray weatherArray = forecastJson.getJSONArray(OWM_LIST);
+
+
+        return null;
     }
 
 }

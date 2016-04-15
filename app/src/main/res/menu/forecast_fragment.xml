@@ -5,6 +5,16 @@
         android:id="@+id/action_refresh"
         android:title="@string/action_refresh"
         app:showAsAction="never"/> <!--overflow menu-->
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_date"
+        android:orderInCategory="1"
+        android:title="Day test"
+        app:showAsAction="never" />
 
 
 </menu>
