@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,9 +25,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -61,11 +62,13 @@ public class ForecastFragment extends Fragment {
                 FetchWeatherTask fetchWeatherTask=new FetchWeatherTask();
                 fetchWeatherTask.execute("94043");
                 break;
-            case R.id.action_date:
-                Calendar calendar = new GregorianCalendar(2016,Calendar.APRIL,15);
-                int result = calendar.get(Calendar.DAY_OF_WEEK);
-                Toast.makeText(this.getContext(), String.valueOf(result), Toast.LENGTH_SHORT).show();
-                break;
+//            case R.id.action_date:
+//                Calendar calendar = new GregorianCalendar();
+//                //long result = System.currentTimeMillis();
+//                calendar.add(GregorianCalendar.DATE,1);
+//                Date result_1 = calendar.getTime();
+//                Toast.makeText(this.getContext(), getReadableDateString(result_1), Toast.LENGTH_SHORT).show();
+//                break;
 
         }
         return true;
@@ -110,15 +113,77 @@ public class ForecastFragment extends Fragment {
         return rootView;
     }
 
-    public class FetchWeatherTask extends AsyncTask<String,Void,String>{
+    public class FetchWeatherTask extends AsyncTask<String,Void,String[]>{
 
         //gets class name so that it can be seen on error log
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
 
+        private String getReadableDateString(Date time){
+            SimpleDateFormat shortenedDateFormat = new SimpleDateFormat("EEE, MMM dd");
+            return shortenedDateFormat.format(time);
+        }
+
+
+        private String formatHighLows(double high, double low){
+            long roundedHigh=Math.round(high);
+            long roundedLow = Math.round(low);
+
+            String highLowStr = roundedHigh+"/"+roundedLow;
+            return highLowStr;
+        }
+
+        private String[] getWeatherDataFromJson(String forecastJsonStr, int numDays) throws JSONException {
+
+            final String OWM_LIST="list";
+            final String OWM_WEATHER="weather";
+            final String OWM_TEMPERATURE = "temp";
+            final String OWM_MAX="max";
+            final String OWN_MIN="min";
+            final String OWM_DESCRIPTION="main";
+
+            JSONObject forecastJson= new JSONObject(forecastJsonStr);
+            JSONArray weatherArray = forecastJson.getJSONArray(OWM_LIST);
+
+            Calendar calendar = new GregorianCalendar();
+
+            String[] resultStrs = new String[numDays];
+            for(int i = 0; i<weatherArray.length(); i++){
+                String day;
+                String description;
+                String highAndLow;
+
+                JSONObject dayForecast = weatherArray.getJSONObject(i);
+
+
+                Date result_1 = calendar.getTime();
+                day= getReadableDateString(result_1);
+                calendar.add(GregorianCalendar.DATE,1);
+                //Log.v("!!!DAY TEST: ",day );
+
+                JSONObject weatherObject = dayForecast.getJSONArray(OWM_WEATHER).getJSONObject(0);
+                //Log.v("!!! WEATHER OBJECT : ", weatherObject.toString());
+                description = weatherObject.getString(OWM_DESCRIPTION);
+                //Log.v("!!!Description Test:",description);
+
+
+                JSONObject temperatureObject = dayForecast.getJSONObject(OWM_TEMPERATURE);
+                double high = temperatureObject.getDouble(OWM_MAX);
+                double low = temperatureObject.getDouble(OWN_MIN);
+
+                highAndLow=formatHighLows(high, low);
+                resultStrs[i]=day+"-"+description+"-"+highAndLow;
+
+            }
+            for(String s: resultStrs){
+                Log.v(LOG_TAG, "Forecast entry: "+s);
+            }
+
+            return resultStrs;
+        }
 
 
         @Override
-        protected String doInBackground(String... params) {
+        protected String[] doInBackground(String... params) {
 
             if(params.length==0){
                 return null;
@@ -195,32 +260,16 @@ public class ForecastFragment extends Fragment {
 
 
             Log.v("RETURNED STRING",forecastJsonStr);
+            try {
+                return getWeatherDataFromJson(forecastJsonStr, numDays);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             return null;
         }
+
+
     }
 
-    private String formatHighLows(double high, double low){
-        long roundedHigh=Math.round(high);
-        long roundedLow = Math.round(low);
-
-        String highLowStr = roundedHigh+"/"+roundedLow;
-        return highLowStr;
-    }
-
-    private String[] getWeatherDataFromJson(String forecastJsonStr, int numDays) throws JSONException {
-
-        final String OWM_LIST="list";
-        final String OWM_WEATHER="weather";
-        final String OWM_TEMPERATURE = "temp";
-        final String OWM_MAX="max";
-        final String OWN_MIN="min";
-        final String OWM_DESCRIPTION="main";
-
-        JSONObject forecastJson= new JSONObject(forecastJsonStr);
-        JSONArray weatherArray = forecastJson.getJSONArray(OWM_LIST);
-
-
-        return null;
-    }
 
 }
