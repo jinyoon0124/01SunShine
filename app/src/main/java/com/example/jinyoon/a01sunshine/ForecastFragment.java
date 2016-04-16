@@ -37,6 +37,8 @@ import java.util.List;
  * A placeholder fragment containing a simple view.
  */
 public class ForecastFragment extends Fragment {
+    ArrayAdapter<String> mforecastAdapter;
+    ListView listView;
 
     public ForecastFragment() {
     }
@@ -61,6 +63,7 @@ public class ForecastFragment extends Fragment {
                 //Toast.makeText(this.getContext(), "Refresh!!", Toast.LENGTH_SHORT).show();
                 FetchWeatherTask fetchWeatherTask=new FetchWeatherTask();
                 fetchWeatherTask.execute("94043");
+                listView.setAdapter(mforecastAdapter);
                 break;
 //            case R.id.action_date:
 //                Calendar calendar = new GregorianCalendar();
@@ -81,31 +84,31 @@ public class ForecastFragment extends Fragment {
         //Need to "inflate" the view to render : XML layout -> Java View Object
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        String[] forecastArray={
-                "Today-Sunny-88/63",
-                "Today-Sunny-88/63",
-                "Today-Sunny-88/63",
-                "Today-Sunny-88/63",
-                "Today-Sunny-88/63",
-        };
-
-        //set string arrays to list
-        List<String> weekForecast = new ArrayList<String>(Arrays.asList(forecastArray));
+//        String[] forecastArray={
+//                "Today-Sunny-88/63",
+//                "Today-Sunny-88/63",
+//                "Today-Sunny-88/63",
+//                "Today-Sunny-88/63",
+//                "Today-Sunny-88/63",
+//        };
+//
+//        //set string arrays to list
+//        List<String> weekForecast = new ArrayList<String>(Arrays.asList(forecastArray));
 
         //Initialize Adapter
-        ArrayAdapter<String> forecastAdapter=
-                new ArrayAdapter<String>(
-                        getActivity(),
-                        R.layout.list_item_forecast,
-                        R.id.list_item_forecast_textview,
-                        weekForecast);
+//        mforecastAdapter=
+//                new ArrayAdapter<String>(
+//                        getActivity(),
+//                        R.layout.list_item_forecast,
+//                        R.id.list_item_forecast_textview,
+//                        weekForecast);
 
         //find list view
-        ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
+        listView = (ListView) rootView.findViewById(R.id.listview_forecast);
 
 
         //set adapter to list view
-        listView.setAdapter(forecastAdapter);
+        listView.setAdapter(mforecastAdapter);
 
 
 
@@ -171,7 +174,7 @@ public class ForecastFragment extends Fragment {
                 double low = temperatureObject.getDouble(OWN_MIN);
 
                 highAndLow=formatHighLows(high, low);
-                resultStrs[i]=day+"-"+description+"-"+highAndLow;
+                resultStrs[i]=day+" - "+description+" - "+highAndLow;
 
             }
             for(String s: resultStrs){
@@ -266,6 +269,20 @@ public class ForecastFragment extends Fragment {
                 e.printStackTrace();
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(String[] forecastArray) {
+
+            List<String> weekForecast = new ArrayList<>(Arrays.asList(forecastArray));
+            mforecastAdapter=
+                    new ArrayAdapter<String>(
+                            getActivity(),
+                            R.layout.list_item_forecast,
+                            R.id.list_item_forecast_textview,
+                            weekForecast);
+
+
         }
 
 
