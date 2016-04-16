@@ -1,5 +1,6 @@
 package com.example.jinyoon.a01sunshine;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -91,11 +91,11 @@ public class ForecastFragment extends Fragment {
         String[] forecastArray={};
 
         //set string arrays to list
-        List<String> weekForecast = new ArrayList<String>(Arrays.asList(forecastArray));
+        List<String> weekForecast = new ArrayList<>(Arrays.asList(forecastArray));
 
         //Initialize Adapter
         mforecastAdapter=
-                new ArrayAdapter<String>(
+                new ArrayAdapter<>(
                         getActivity(),
                         R.layout.list_item_forecast,
                         R.id.list_item_forecast_textview,
@@ -109,7 +109,10 @@ public class ForecastFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String forecast = parent.getItemAtPosition(position).toString();
-                Toast.makeText(getContext(), forecast, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra(Intent.EXTRA_TEXT, forecast);
+                startActivity(intent);
+
             }
         });
 
@@ -180,9 +183,6 @@ public class ForecastFragment extends Fragment {
                 highAndLow=formatHighLows(high, low);
                 resultStrs[i]=day+" - "+description+" - "+highAndLow;
 
-            }
-            for(String s: resultStrs){
-//                Log.v(LOG_TAG, "Forecast entry: "+s);
             }
 
             return resultStrs;

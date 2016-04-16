@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:minHeight="10dp"
-    android:textSize="20sp"
+    android:layout_height="@dimen/layout_height"
+    android:minHeight="@dimen/min_height"
+    android:textSize="@dimen/textSize"
     android:gravity="center_vertical"
     android:id="@+id/list_item_forecast_textview"
     />
