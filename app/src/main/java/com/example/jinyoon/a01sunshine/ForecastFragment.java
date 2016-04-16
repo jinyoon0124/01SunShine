@@ -59,7 +59,7 @@ public class ForecastFragment extends Fragment {
 
     //select which action should be performed once the menu is clicked
     public boolean onOptionsItemSelected(MenuItem item){
-//        switch (item.getItemId()){
+        switch (item.getItemId()){
 //            case R.id.action_refresh:
 //                //Toast.makeText(this.getContext(), "Refresh!!", Toast.LENGTH_SHORT).show();
 //
@@ -73,7 +73,11 @@ public class ForecastFragment extends Fragment {
 //                Toast.makeText(this.getContext(), getReadableDateString(result_1), Toast.LENGTH_SHORT).show();
 //                break;
 //
-//        }
+            case R.id.action_settings:
+                Intent intent = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(intent);
+
+        }
         return true;
     }
 
