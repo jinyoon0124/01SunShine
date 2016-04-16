@@ -57,13 +57,12 @@ public class ForecastFragment extends Fragment {
 
     //select which action should be performed once the menu is clicked
     public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
-            case R.id.action_refresh:
-                //Toast.makeText(this.getContext(), "Refresh!!", Toast.LENGTH_SHORT).show();
-                FetchWeatherTask fetchWeatherTask=new FetchWeatherTask();
-                fetchWeatherTask.execute("94043");
-
-                break;
+//        switch (item.getItemId()){
+//            case R.id.action_refresh:
+//                //Toast.makeText(this.getContext(), "Refresh!!", Toast.LENGTH_SHORT).show();
+//
+//
+//                break;
 //            case R.id.action_date:
 //                Calendar calendar = new GregorianCalendar();
 //                //long result = System.currentTimeMillis();
@@ -71,8 +70,8 @@ public class ForecastFragment extends Fragment {
 //                Date result_1 = calendar.getTime();
 //                Toast.makeText(this.getContext(), getReadableDateString(result_1), Toast.LENGTH_SHORT).show();
 //                break;
-
-        }
+//
+//        }
         return true;
     }
 
@@ -83,13 +82,11 @@ public class ForecastFragment extends Fragment {
         //Need to "inflate" the view to render : XML layout -> Java View Object
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        String[] forecastArray={
-                "Today-Sunny-88/63",
-                "Today-Sunny-88/63",
-                "Today-Sunny-88/63",
-                "Today-Sunny-88/63",
-                "Today-Sunny-88/63",
-        };
+        FetchWeatherTask fetchWeatherTask=new FetchWeatherTask();
+        fetchWeatherTask.execute("94043");
+
+
+        String[] forecastArray={};
 
         //set string arrays to list
         List<String> weekForecast = new ArrayList<String>(Arrays.asList(forecastArray));
@@ -177,7 +174,7 @@ public class ForecastFragment extends Fragment {
 
             }
             for(String s: resultStrs){
-                Log.v(LOG_TAG, "Forecast entry: "+s);
+//                Log.v(LOG_TAG, "Forecast entry: "+s);
             }
 
             return resultStrs;
@@ -261,7 +258,7 @@ public class ForecastFragment extends Fragment {
             }
 
 
-            Log.v("RETURNED STRING",forecastJsonStr);
+//            Log.v("RETURNED STRING",forecastJsonStr);
             try {
                 return getWeatherDataFromJson(forecastJsonStr, numDays);
             } catch (JSONException e) {
