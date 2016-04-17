@@ -1,9 +1,11 @@
 package com.example.jinyoon.a01sunshine;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,11 +31,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -60,18 +60,17 @@ public class ForecastFragment extends Fragment {
     //select which action should be performed once the menu is clicked
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
-//            case R.id.action_refresh:
-//                //Toast.makeText(this.getContext(), "Refresh!!", Toast.LENGTH_SHORT).show();
-//
-//
-//                break;
+           case R.id.action_refresh:
+               updateWeather();
+
+               break;
 //            case R.id.action_date:
 //                Calendar calendar = new GregorianCalendar();
 //                //long result = System.currentTimeMillis();
 //                calendar.add(GregorianCalendar.DATE,1);
 //                Date result_1 = calendar.getTime();
 //                Toast.makeText(this.getContext(), getReadableDateString(result_1), Toast.LENGTH_SHORT).show();
-//                break;
+//               break;
 //
             case R.id.action_settings:
                 Intent intent = new Intent(getActivity(), SettingsActivity.class);
@@ -79,6 +78,20 @@ public class ForecastFragment extends Fragment {
 
         }
         return true;
+    }
+
+    public void updateWeather(){
+        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
+        SharedPreferences locationPreference = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location = locationPreference.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+//               Toast.makeText(this.getContext(), location, Toast.LENGTH_SHORT).show();
+        fetchWeatherTask.execute(location);
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        updateWeather();
     }
 
     @Override
@@ -91,19 +104,13 @@ public class ForecastFragment extends Fragment {
         FetchWeatherTask fetchWeatherTask=new FetchWeatherTask();
         fetchWeatherTask.execute("94043");
 
-
-        String[] forecastArray={};
-
-        //set string arrays to list
-        List<String> weekForecast = new ArrayList<>(Arrays.asList(forecastArray));
-
         //Initialize Adapter
         mforecastAdapter=
                 new ArrayAdapter<>(
                         getActivity(),
                         R.layout.list_item_forecast,
                         R.id.list_item_forecast_textview,
-                        weekForecast);
+                        new ArrayList<String>());
 
         //find list view
         ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
@@ -212,7 +219,7 @@ public class ForecastFragment extends Fragment {
 
                 final String FORECAST_BASE_URL=
                         "http://api.openweathermap.org/data/2.5/forecast/daily";
-                final String QUERY_PARAM= "q";
+                final String QUERY_PARAM= "zip";
                 final String FORMAT_PARAM="mode";
                 final String UNITS_PARAM="units";
                 final String DAYS_PARAM="cnt";
