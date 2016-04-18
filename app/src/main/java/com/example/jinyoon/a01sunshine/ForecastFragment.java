@@ -82,9 +82,9 @@ public class ForecastFragment extends Fragment {
 
     public void updateWeather(){
         FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-        SharedPreferences locationPreference = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String location = locationPreference.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
-//               Toast.makeText(this.getContext(), location, Toast.LENGTH_SHORT).show();
+        SharedPreferences spr = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location = spr.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+        //Toast.makeText(this.getContext(), units, Toast.LENGTH_SHORT).show();
         fetchWeatherTask.execute(location);
     }
 
@@ -101,9 +101,7 @@ public class ForecastFragment extends Fragment {
         //Need to "inflate" the view to render : XML layout -> Java View Object
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        FetchWeatherTask fetchWeatherTask=new FetchWeatherTask();
-        fetchWeatherTask.execute("94043");
-
+        updateWeather();
         //Initialize Adapter
         mforecastAdapter=
                 new ArrayAdapter<>(
@@ -145,7 +143,13 @@ public class ForecastFragment extends Fragment {
         }
 
 
-        private String formatHighLows(double high, double low){
+        private String formatHighLows(double high, double low, String units){
+
+            if(units.equals(getString(R.string.pref_units_imperial))){
+                high = high*1.8+32;
+                low = low*1.8+32;
+            }
+
             long roundedHigh=Math.round(high);
             long roundedLow = Math.round(low);
 
@@ -191,7 +195,10 @@ public class ForecastFragment extends Fragment {
                 double high = temperatureObject.getDouble(OWM_MAX);
                 double low = temperatureObject.getDouble(OWN_MIN);
 
-                highAndLow=formatHighLows(high, low);
+                SharedPreferences spr = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                String units = spr.getString(getString(R.string.pref_units_key),getString(R.string.pref_units_metric));
+
+                highAndLow=formatHighLows(high, low, units);
                 resultStrs[i]=day+" - "+description+" - "+highAndLow;
 
             }
