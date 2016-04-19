@@ -72,13 +72,24 @@ public class ForecastFragment extends Fragment {
 //                Toast.makeText(this.getContext(), getReadableDateString(result_1), Toast.LENGTH_SHORT).show();
 //               break;
 //
-            case R.id.action_settings:
-                Intent intent = new Intent(getActivity(), SettingsActivity.class);
-                startActivity(intent);
 
+//            case R.id.action_location:
+//                SharedPreferences spr = PreferenceManager.getDefaultSharedPreferences(getActivity());
+//                String location = spr.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+//                String locationUri = "geo:0,0?q="+location;
+//                showMap(Uri.parse(locationUri));
+//
+//                break;
+//            case R.id.action_settings:
+//                Intent intent = new Intent(getActivity(), SettingsActivity.class);
+//                startActivity(intent);
+//                break;
         }
         return true;
     }
+
+
+
 
     public void updateWeather(){
         FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
