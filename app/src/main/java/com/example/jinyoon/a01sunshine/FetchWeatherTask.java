@@ -224,6 +224,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.example.jinyoon.a01sunshine;
 
 import android.content.ContentUris;
@@ -437,7 +438,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
             long locationId = addLocation(locationSetting, cityName, cityLatitude, cityLongitude);
 
             // Insert the new weather information into the database
-            Vector<ContentValues> cVVector = new Vector<ContentValues>(weatherArray.length());
+            Vector<ContentValues> cVVector = new Vector<>(weatherArray.length());
 
             // OWM returns daily forecasts based upon the local time of the city that is being
             // asked for, which means that we need to know the GMT offset to translate this data
@@ -534,7 +535,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
             Cursor cur = mContext.getContentResolver().query(weatherForLocationUri,
                     null, null, null, sortOrder);
 
-            cVVector = new Vector<ContentValues>(cur.getCount());
+            cVVector = new Vector<>(cur.getCount());
             if ( cur.moveToFirst() ) {
                 do {
                     ContentValues cv = new ContentValues();
@@ -665,3 +666,4 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
         }
     }
 }
+
