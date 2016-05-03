@@ -451,7 +451,6 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
                 double low;
 
                 String description;
-                String day;
                 int weatherId;
 
                 // Get the JSON object representing the day
@@ -464,7 +463,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
                 int julianStartDay = Time.getJulianDay(System.currentTimeMillis(), dayTime.gmtoff);
 
                 // now we work exclusively in UTC
-                dayTime = new Time();
+
 
                 dateTime = dayTime.setJulianDay(julianStartDay+i);
                 pressure = dayForecast.getDouble(OWM_PRESSURE);
