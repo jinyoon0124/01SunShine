@@ -56,7 +56,6 @@ public class DetailActivityFragment extends Fragment {
         return shareIntent;
     }
 
-
     public boolean onOptionsItemSelected(MenuItem item){
 
         switch (item.getItemId()){
@@ -65,8 +64,6 @@ public class DetailActivityFragment extends Fragment {
                 startActivity(intent);
 
         }
-
-
         return true;
     }
 
@@ -77,8 +74,8 @@ public class DetailActivityFragment extends Fragment {
 
         TextView detailForecast = (TextView) rootView.findViewById(R.id.detailForecast);
         Intent intent = getActivity().getIntent();
-        if(intent!=null && intent.hasExtra(Intent.EXTRA_TEXT)){
-            detailForecastStr = intent.getStringExtra(Intent.EXTRA_TEXT);
+        if(intent!=null){
+            detailForecastStr = intent.getDataString();
             detailForecast.setText(detailForecastStr);
         }
         return rootView;
