@@ -5,5 +5,8 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="layout_height">60dp</dimen>
     <dimen name="min_height">10dp</dimen>
-    <dimen name="textSize">20sp</dimen>
+    <dimen name="large_textsize">20sp</dimen>
+    <dimen name="medium_textsize">17sp</dimen>
+    <dimen name="list_view_item_padding">15dp</dimen>
+
 </resources>

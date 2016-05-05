@@ -154,6 +154,6 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+        //Nothing to do here because there is no data that we are holdin onto
     }
 }

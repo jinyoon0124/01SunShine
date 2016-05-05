@@ -94,11 +94,11 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         fetchWeatherTask.execute(location);
     }
 
-    @Override
-    public void onStart(){
-        super.onStart();
-        updateWeather();
-    }
+//    @Override
+//    public void onStart(){
+//        super.onStart();
+//        updateWeather();
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
