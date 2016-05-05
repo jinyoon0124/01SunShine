@@ -127,30 +127,17 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
         //set adapter to list view
         listView.setAdapter(mforecastAdapter);
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView parent, View view, int position, long id) {
-//                Cursor cursor = (Cursor) parent.getItemAtPosition(position);
-//                if(cursor!=null){
-//                    String locationSetting = Utility.getPreferredLocation(getActivity());
-//                    Intent intent = new Intent(getActivity(), DetailActivity.class);
-//                    intent.setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
-//                            locationSetting, cursor.getLong(COL_WEATHER_DATE)));
-//                    startActivity(intent);
-//                }
-//
-//
-//
-//            }
-//        });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Cursor cursor = (Cursor)parent.getItemAtPosition(position);
-                String test = cursor.getString(COL_WEATHER_DESC);
-                Intent intent = new Intent(getActivity(), DetailActivity.class);
-                intent.putExtra(Intent.EXTRA_TEXT,test);
-                startActivity(intent);
+            public void onItemClick(AdapterView parent, View view, int position, long id) {
+                Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+                if(cursor!=null){
+                    String locationSetting = Utility.getPreferredLocation(getActivity());
+                    Intent intent = new Intent(getActivity(), DetailActivity.class);
+                    intent.setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
+                            locationSetting, cursor.getLong(COL_WEATHER_DATE)));
+                    startActivity(intent);
+                }
             }
         });
 
