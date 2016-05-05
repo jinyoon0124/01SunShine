@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/layout_height"
         android:gravity="center_vertical"
-        android:textSize="@dimen/textSize"
+        android:textSize="@dimen/large_textsize"
         android:minHeight="@dimen/min_height"
         android:id="@+id/detailForecast"/>
 

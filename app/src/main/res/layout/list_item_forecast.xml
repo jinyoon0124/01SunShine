@@ -25,14 +25,14 @@
             android:id="@+id/list_item_date_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/large_textsize"
+            android:textSize="@dimen/list_large_textsize"
             android:text="Tomorrow"
         />
         <TextView
             android:id="@+id/list_item_forecast_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/medium_textsize"
+            android:textSize="@dimen/list_medium_textsize"
             android:text="Clear"
         />
     </LinearLayout>
@@ -45,13 +45,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="20"
-            android:textSize="@dimen/large_textsize"
+            android:textSize="@dimen/list_large_textsize"
         />
         <TextView
             android:id="@+id/list_item_low_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/medium_textsize"
+            android:textSize="@dimen/list_medium_textsize"
             android:text="10"
         />
     </LinearLayout>
