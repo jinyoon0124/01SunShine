@@ -32,7 +32,7 @@ public class DetailActivityFragment extends Fragment {
 
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
-        inflater.inflate(R.menu.menu_detail, menu);
+        inflater.inflate(R.menu.detail_fragment, menu);
 
         //Share Item!!!!
         MenuItem item =  menu.findItem(R.id.menu_item_share);
@@ -75,8 +75,10 @@ public class DetailActivityFragment extends Fragment {
         TextView detailForecast = (TextView) rootView.findViewById(R.id.detailForecast);
         Intent intent = getActivity().getIntent();
         if(intent!=null){
-            detailForecastStr = intent.getDataString();
+            detailForecastStr = intent.getStringExtra(Intent.EXTRA_TEXT);
             detailForecast.setText(detailForecastStr);
+        }else{
+            Log.e("NO INENT","SHIT!!!!!!!!");
         }
         return rootView;
     }

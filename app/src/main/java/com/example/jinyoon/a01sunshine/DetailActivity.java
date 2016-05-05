@@ -3,6 +3,7 @@ package com.example.jinyoon.a01sunshine;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -15,5 +16,13 @@ public class DetailActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        return true;
+    }
+
 }
 
