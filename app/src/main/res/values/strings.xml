@@ -41,11 +41,30 @@
         <xliff:g id="date">%2$s</xliff:g>
     </string>
 
+    <!-- TEMPERATURE FORMAT-->
     <!-- \u00B0 is the unit code character for degree symbol-->
     <string name="format_temperature">
         <xliff:g id="temp">%1.0f</xliff:g>\u00B0
     </string>
 
+    <!-- WIND FORMAT m/s-->
+    <string name="format_wind_ms">
+        WIND: <xliff:g id="wind">%1$1.0f</xliff:g> m/s <xliff:g id="direction">%2$s</xliff:g>
+    </string>
 
+    <!-- WIND FORMAT mph-->
+    <string name="format_wind_mph">
+        WIND: <xliff:g id="wind">%1$1.0f</xliff:g> mph <xliff:g id="direction">%2$s</xliff:g>
+    </string>
+
+    <!-- PRESSURE FORMAT -->
+    <string name="format_pressure">
+        PRESSURE: <xliff:g id="pressure">%1$1.0f</xliff:g> hpa
+    </string>
+
+    <!-- HUMIDITY FORMAT -->
+    <string name="format_humidity">
+        HUMIDITY: <xliff:g id="humidity">%1$1.0f</xliff:g> %%
+    </string>
 
 </resources>
