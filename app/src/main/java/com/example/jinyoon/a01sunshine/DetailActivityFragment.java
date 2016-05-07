@@ -172,7 +172,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
         cursor.moveToFirst();
 
         int weatherId = cursor.getInt(COL_WEATHER_CONDITION_ID);
-        mIconImageView.setImageResource(R.mipmap.ic_launcher);
+        mIconImageView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
 
         String dayString = Utility.getDayName(this.getActivity(), cursor.getLong(COL_WEATHER_DATE));
         mDayTextView.setText(dayString);
