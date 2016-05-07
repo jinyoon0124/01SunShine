@@ -9,6 +9,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String DETAILFRAGMENT_TAG = "DFTAG";
+    private static String mLocation;
+    private static boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +19,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mLocation= Utility.getPreferredLocation(this);
+        if (findViewById(R.id.weather_detail_container) != null) {
+            // The detail container view will be present only in the large-screen layouts
+            // (res/layout-sw600dp). If this view is present, then the activity should be
+            // in two-pane mode.
+            mTwoPane = true;
+            // In two-pane mode, show the detail view in this activity by
+            // adding or replacing the detail fragment using a
+            // fragment transaction.
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.weather_detail_container, new DetailActivityFragment(), DETAILFRAGMENT_TAG)
+                        .commit();
+            }
+        } else {
+            mTwoPane = false;
+        }
 
     }
     @Override
@@ -53,5 +73,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String location = Utility.getPreferredLocation(this);
+        if(location!=null && !location.equals(mLocation)){
+            ForecastFragment ff = (ForecastFragment)getSupportFragmentManager().findFragmentById(R.id.forecast_fragment);
+            if(null!=ff){
+                ff.onLocationChanged();
+            }
+            mLocation=location;
+        }
 
+    }
 }

@@ -17,11 +17,13 @@
             android:id="@+id/detail_day_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="today"
             />
         <TextView
             android:id="@+id/detail_date_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="May 5"
             />
 
         <LinearLayout
@@ -39,12 +41,14 @@
                     android:id="@+id/detail_high_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="50sp"/>
+                    android:textSize="50sp"
+                    android:text="20"/>
                 <TextView
                     android:id="@+id/detail_low_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="30sp"/>
+                    android:textSize="30sp"
+                    android:text="10"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="0dp"
@@ -56,12 +60,13 @@
                     android:id="@+id/detail_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:src="@drawable/ic_snow"
                     />
                 <TextView
                     android:id="@+id/detail_forecast_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    />
+                    android:text="CLSEAR"/>
 
             </LinearLayout>
 
@@ -71,7 +76,7 @@
             android:id="@+id/detail_humidity_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            android:text="humidity"/>
         <TextView
             android:id="@+id/detail_wind_textview"
             android:layout_width="wrap_content"

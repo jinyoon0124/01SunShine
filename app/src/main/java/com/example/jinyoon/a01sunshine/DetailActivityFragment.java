@@ -2,7 +2,6 @@ package com.example.jinyoon.a01sunshine;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -148,14 +147,13 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Intent intent = getActivity().getIntent();
-        Uri uri = null;
-        if(intent!=null){
-            uri = intent.getData();
+        if(intent==null || intent.getData()==null){
+            return null;
         }
         if(id==DETAIL_LOADER_ID){
             return new CursorLoader(
                     this.getContext(),
-                    uri,
+                    intent.getData(),
                     FORECAST_COLUMNS,
                     null,
                     null,
