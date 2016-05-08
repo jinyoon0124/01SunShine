@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ForecastFragment.Callback{
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
     private static String mLocation;
     private static boolean mTwoPane;
@@ -82,8 +82,31 @@ public class MainActivity extends AppCompatActivity {
             if(null!=ff){
                 ff.onLocationChanged();
             }
+            DetailActivityFragment df = (DetailActivityFragment)getSupportFragmentManager().findFragmentByTag(DETAILFRAGMENT_TAG);
+            if(null!=df){
+                df.onLocationChanged(location);
+            }
             mLocation=location;
         }
 
+    }
+
+    @Override
+    public void onItemSelected(Uri dateUri) {
+        if(mTwoPane){
+            Bundle args = new Bundle();
+            args.putParcelable(DetailActivityFragment.DETAIL_URI, dateUri);
+
+            DetailActivityFragment fragment = new DetailActivityFragment();
+            fragment.setArguments(args);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.weather_detail_container, fragment, DETAILFRAGMENT_TAG)
+                    .commit();
+        }else{
+            Intent intent = new Intent(this, DetailActivity.class)
+                    .setData(dateUri);
+            startActivity(intent);
+        }
     }
 }

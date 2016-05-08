@@ -1,6 +1,5 @@
 package com.example.jinyoon.a01sunshine;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
@@ -138,17 +137,18 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                 Cursor cursor = (Cursor) parent.getItemAtPosition(position);
                 if(cursor!=null){
                     String locationSetting = Utility.getPreferredLocation(getActivity());
-                    Intent intent = new Intent(getActivity(), DetailActivity.class);
-                    intent.setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
-                            locationSetting, cursor.getLong(COL_WEATHER_DATE)));
-                    startActivity(intent);
+//                    Intent intent = new Intent(getActivity(), DetailActivity.class);
+//                    intent.setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
+//                            locationSetting, cursor.getLong(COL_WEATHER_DATE)));
+//                    startActivity(intent);
+                    ((Callback)getActivity())
+                            .onItemSelected(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
+                                    locationSetting,cursor.getLong(COL_WEATHER_DATE)
+                            ));
+
                 }
             }
         });
-
-
-
-
         return rootView;
     }
 
@@ -190,7 +190,17 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         mforecastAdapter.swapCursor(null);
     }
 
-
+    /**
+     * A callback interface that all activities containing this fragment must
+     * implement. This mechanism allows activities to be notified of item
+     * selections.
+     */
+    public interface Callback {
+        /**
+         * DetailFragmentCallback for when an item has been selected.
+         */
+        public void onItemSelected(Uri dateUri);
+    }
 
 
 }

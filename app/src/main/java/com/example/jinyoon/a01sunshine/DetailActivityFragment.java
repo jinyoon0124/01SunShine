@@ -2,6 +2,7 @@ package com.example.jinyoon.a01sunshine;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,8 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
     private String detailForecastStr;
     private static final String LOG_TAG=DetailActivityFragment.class.getSimpleName();
     private static final String FORECAST_SHARE_HASHTAG=" #SunShineApp";
+    private static Uri mUri;
+    static final String DETAIL_URI = "URI";
 
     private static final int DETAIL_LOADER_ID = 0;
     private static final String[] FORECAST_COLUMNS = {
@@ -79,6 +82,8 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+
     }
 
 
@@ -132,6 +137,10 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
         mWindTextView = (TextView) rootView.findViewById(R.id.detail_wind_textview);
         mPressureTextView = (TextView) rootView.findViewById(R.id.detail_pressure_textview);
 
+        Bundle arguments = getArguments();
+        if(arguments!=null){
+            mUri=arguments.getParcelable(DETAIL_URI);
+        }
 
 
         return rootView;
@@ -146,14 +155,15 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Intent intent = getActivity().getIntent();
-        if(intent==null || intent.getData()==null){
-            return null;
-        }
-        if(id==DETAIL_LOADER_ID){
+//        Intent intent = getActivity().getIntent();
+//        if(intent==null || intent.getData()==null){
+//            return null;
+//        }
+
+        if(mUri!=null){
             return new CursorLoader(
                     this.getContext(),
-                    intent.getData(),
+                    mUri,
                     FORECAST_COLUMNS,
                     null,
                     null,
@@ -206,4 +216,15 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
     public void onLoaderReset(Loader<Cursor> loader) {
         //Nothing to do here because there is no data that we are holdin onto
     }
+    void onLocationChanged( String newLocation ) {
+        // replace the uri, since the location has changed
+        Uri uri = mUri;
+        if (null != uri) {
+            long date = WeatherContract.WeatherEntry.getDateFromUri(uri);
+            Uri updatedUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(newLocation, date);
+            mUri = updatedUri;
+            getLoaderManager().restartLoader(DETAIL_LOADER_ID, null, this);
+        }
+    }
+
 }
