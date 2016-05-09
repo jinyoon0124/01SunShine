@@ -30,6 +30,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     private int mPosition = ListView.INVALID_POSITION;
     private static final String SELECTED_KEY="selected_position";
     private ListView mListView;
+    private boolean mUseTodayLayout;
     private static final String[] FORECAST_COLUMNS = {
             // In this case the id needs to be fully qualified with a table name, since
             // the content provider joins the location & weather tables in the background
@@ -156,6 +157,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         if(savedInstanceState!=null&&savedInstanceState.containsKey(SELECTED_KEY)){
             mPosition=savedInstanceState.getInt(SELECTED_KEY);
         }
+
+        mforecastAdapter.setUseTodayLayout(mUseTodayLayout);
         return rootView;
     }
 
@@ -206,6 +209,13 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mforecastAdapter.swapCursor(null);
+    }
+
+    public void setUseTodayLayout(boolean useTodayLayout){
+        mUseTodayLayout=useTodayLayout;
+        if(mforecastAdapter!=null){
+            mforecastAdapter.setUseTodayLayout(mUseTodayLayout);
+        }
     }
 
     /**
