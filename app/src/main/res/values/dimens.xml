@@ -2,13 +2,23 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="layout_height">60dp</dimen>
-    <dimen name="min_height">10dp</dimen>
-    <dimen name="list_large_textsize">20sp</dimen>
-    <dimen name="list_medium_textsize">17sp</dimen>
-    <dimen name="list_view_item_padding">15dp</dimen>
-    <dimen name="today_large_textsize">50sp</dimen>
-    <dimen name="today_small_textsize">25sp</dimen>
+    <dimen name="list_view_item_padding">16dp</dimen>
+
+    <dimen name="today_large_temp_textsize">72sp</dimen>
+    <dimen name="today_small_temp_textsize">36sp</dimen>
+    <dimen name="today_left_padding">60dp</dimen>
+    <dimen name="today_image_size">100dp</dimen>
+
+    <dimen name="detail_day_textsize">24sp</dimen>
+    <dimen name="detail_date_textsize">16sp</dimen>
+    <dimen name="detail_large_temp_textsize">90sp</dimen>
+    <dimen name="detail_small_temp_textsize">48sp</dimen>
+    <dimen name="detail_textview_margin">4dp</dimen>
+
+    <dimen name="detail_wide_date_textsize">20sp</dimen>
+    <dimen name="detail_wide_image_size">144dp</dimen>
+
+
+
 
 </resources>

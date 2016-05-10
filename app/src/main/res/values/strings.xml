@@ -49,22 +49,22 @@
 
     <!-- WIND FORMAT m/s-->
     <string name="format_wind_ms">
-        WIND: <xliff:g id="wind">%1$1.0f</xliff:g> m/s <xliff:g id="direction">%2$s</xliff:g>
+        Wind: <xliff:g id="wind">%1$1.0f</xliff:g> m/s <xliff:g id="direction">%2$s</xliff:g>
     </string>
 
     <!-- WIND FORMAT mph-->
     <string name="format_wind_mph">
-        WIND: <xliff:g id="wind">%1$1.0f</xliff:g> mph <xliff:g id="direction">%2$s</xliff:g>
+        Wind: <xliff:g id="wind">%1$1.0f</xliff:g> mph <xliff:g id="direction">%2$s</xliff:g>
     </string>
 
     <!-- PRESSURE FORMAT -->
     <string name="format_pressure">
-        PRESSURE: <xliff:g id="pressure">%1$1.0f</xliff:g> hpa
+        Pressure: <xliff:g id="pressure">%1$1.0f</xliff:g> hpa
     </string>
 
     <!-- HUMIDITY FORMAT -->
     <string name="format_humidity">
-        HUMIDITY: <xliff:g id="humidity">%1$1.0f</xliff:g> %%
+        Humidity: <xliff:g id="humidity">%1$1.0f</xliff:g> %%
     </string>
 
 </resources>
