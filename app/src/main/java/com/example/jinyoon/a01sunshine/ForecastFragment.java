@@ -25,6 +25,8 @@ import android.widget.ListView;
 
 import com.example.jinyoon.a01sunshine.data.WeatherContract;
 import com.example.jinyoon.a01sunshine.service.SunShineService;
+import com.example.jinyoon.a01sunshine.sync.SunshineSyncAdapter;
+
 
 /**
  * A placeholder fragment containing a simple view.
@@ -95,14 +97,16 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     public void updateWeather(){
-        Intent alarmIntent = new Intent(getActivity(), SunShineService.AlarmReceiver.class);
-        alarmIntent.putExtra(SunShineService.LOCATION_QUERY_EXTRA, Utility.getPreferredLocation(getActivity()));
-        //getActivity().startService(intent);
-        PendingIntent pi = PendingIntent.getBroadcast(getActivity(),0,alarmIntent,PendingIntent.FLAG_ONE_SHOT);
+//        Intent alarmIntent = new Intent(getActivity(), SunShineService.AlarmReceiver.class);
+//        alarmIntent.putExtra(SunShineService.LOCATION_QUERY_EXTRA, Utility.getPreferredLocation(getActivity()));
+//        //getActivity().startService(intent);
+//        PendingIntent pi = PendingIntent.getBroadcast(getActivity(),0,alarmIntent,PendingIntent.FLAG_ONE_SHOT);
+//
+//        AlarmManager arm = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+//
+//        arm.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+10000, pi);
+        SunshineSyncAdapter.syncImmediately(getActivity());
 
-        AlarmManager arm = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-
-        arm.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+10000, pi);
     }
 
     public void onLocationChanged(){
