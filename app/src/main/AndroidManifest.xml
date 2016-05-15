@@ -41,6 +41,7 @@
             android:authorities="com.example.jinyoon.a01sunshine"
             android:name=".data.WeatherProvider"/>
         <service android:name=".service.SunShineService"/>
+        <receiver android:name=".service.SunShineService$AlarmReceiver"/>
     </application>
 
 </manifest>

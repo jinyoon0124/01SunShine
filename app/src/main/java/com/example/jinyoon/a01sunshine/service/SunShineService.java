@@ -1,14 +1,17 @@
 package com.example.jinyoon.a01sunshine.service;
 
 import android.app.IntentService;
+import android.content.BroadcastReceiver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.text.format.Time;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.example.jinyoon.a01sunshine.BuildConfig;
 import com.example.jinyoon.a01sunshine.data.WeatherContract;
@@ -114,7 +117,7 @@ public class SunShineService extends IntentService {
         return;
     }
 
-    private String[] getWeatherDataFromJson(String forecastJsonStr,
+    private void getWeatherDataFromJson(String forecastJsonStr,
                                             String locationSetting)
             throws JSONException {
 
@@ -217,7 +220,7 @@ public class SunShineService extends IntentService {
             Log.e(LOG_TAG, e.getMessage(), e);
             e.printStackTrace();
         }
-        return null;
+        return;
     }
 
     public long addLocation(String locationSetting, String cityName, double lat, double lon) {
@@ -255,15 +258,13 @@ public class SunShineService extends IntentService {
         return locationId;
     }
 
-
-
-
-
-
-
-
-
-
-
-
+    public static class AlarmReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Intent sendIntent = new Intent(context, SunShineService.class);
+            sendIntent.putExtra(SunShineService.LOCATION_QUERY_EXTRA, intent.getStringExtra(SunShineService.LOCATION_QUERY_EXTRA));
+            context.startService(sendIntent);
+        }
+    }
 }
+

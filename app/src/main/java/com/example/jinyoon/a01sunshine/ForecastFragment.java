@@ -1,5 +1,8 @@
 package com.example.jinyoon.a01sunshine;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -92,14 +95,14 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     public void updateWeather(){
-//        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask(this.getContext());
-//        SharedPreferences spr = PreferenceManager.getDefaultSharedPreferences(getActivity());
-//        String location = spr.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
-//        //Toast.makeText(this.getContext(), units, Toast.LENGTH_SHORT).show();
-//        fetchWeatherTask.execute(location);
-        Intent intent = new Intent(getActivity(), SunShineService.class);
-        intent.putExtra(SunShineService.LOCATION_QUERY_EXTRA, Utility.getPreferredLocation(getActivity()));
-        getActivity().startService(intent);
+        Intent alarmIntent = new Intent(getActivity(), SunShineService.AlarmReceiver.class);
+        alarmIntent.putExtra(SunShineService.LOCATION_QUERY_EXTRA, Utility.getPreferredLocation(getActivity()));
+        //getActivity().startService(intent);
+        PendingIntent pi = PendingIntent.getBroadcast(getActivity(),0,alarmIntent,PendingIntent.FLAG_ONE_SHOT);
+
+        AlarmManager arm = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+
+        arm.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+10000, pi);
     }
 
     public void onLocationChanged(){
@@ -119,21 +122,21 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
         //Need to "inflate" the view to render : XML layout -> Java View Object
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        updateWeather();
+        //updateWeather();
         //Initialize Adapter
-        String locationSetting = Utility.getPreferredLocation(getActivity());
-        String sortOrder= WeatherContract.WeatherEntry.COLUMN_DATE +" ASC";
-        Uri weatherForLocationUri = WeatherContract.WeatherEntry.buildWeatherLocationWithStartDate(
-                locationSetting, System.currentTimeMillis());
-        Cursor cur = getActivity().getContentResolver().query(
-                weatherForLocationUri,
-                FORECAST_COLUMNS,
-                null,
-                null,
-                sortOrder
-        );
+//        String locationSetting = Utility.getPreferredLocation(getActivity());
+//        String sortOrder= WeatherContract.WeatherEntry.COLUMN_DATE +" ASC";
+//        Uri weatherForLocationUri = WeatherContract.WeatherEntry.buildWeatherLocationWithStartDate(
+//                locationSetting, System.currentTimeMillis());
+//        Cursor cur = getActivity().getContentResolver().query(
+//                weatherForLocationUri,
+//                FORECAST_COLUMNS,
+//                null,
+//                null,
+//                sortOrder
+//        );
 
-        mforecastAdapter=new ForecastAdapter(getActivity(),cur,0);
+        mforecastAdapter=new ForecastAdapter(getActivity(),null,0);
 
 
         //find list view
@@ -142,14 +145,11 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         mListView.setAdapter(mforecastAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Cursor cursor = (Cursor) parent.getItemAtPosition(position);
                 if(cursor!=null){
                     String locationSetting = Utility.getPreferredLocation(getActivity());
-//                    Intent intent = new Intent(getActivity(), DetailActivity.class);
-//                    intent.setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
-//                            locationSetting, cursor.getLong(COL_WEATHER_DATE)));
-//                    startActivity(intent);
+
                     ((Callback)getActivity())
                             .onItemSelected(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
                                     locationSetting,cursor.getLong(COL_WEATHER_DATE)
@@ -190,7 +190,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
         if(id==MY_LOADER_ID){
             return new CursorLoader(
-                    this.getContext(),
+                    getActivity(),
                     weatherForLocationUri,
                     FORECAST_COLUMNS,
                     null,
