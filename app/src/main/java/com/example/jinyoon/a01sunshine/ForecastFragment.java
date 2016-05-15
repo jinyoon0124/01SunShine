@@ -1,5 +1,6 @@
 package com.example.jinyoon.a01sunshine;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
@@ -20,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.jinyoon.a01sunshine.data.WeatherContract;
+import com.example.jinyoon.a01sunshine.service.SunShineService;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -90,11 +92,14 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     public void updateWeather(){
-        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask(this.getContext());
-        SharedPreferences spr = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String location = spr.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
-        //Toast.makeText(this.getContext(), units, Toast.LENGTH_SHORT).show();
-        fetchWeatherTask.execute(location);
+//        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask(this.getContext());
+//        SharedPreferences spr = PreferenceManager.getDefaultSharedPreferences(getActivity());
+//        String location = spr.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+//        //Toast.makeText(this.getContext(), units, Toast.LENGTH_SHORT).show();
+//        fetchWeatherTask.execute(location);
+        Intent intent = new Intent(getActivity(), SunShineService.class);
+        intent.putExtra(SunShineService.LOCATION_QUERY_EXTRA, Utility.getPreferredLocation(getActivity()));
+        getActivity().startService(intent);
     }
 
     public void onLocationChanged(){
