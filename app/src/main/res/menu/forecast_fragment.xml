@@ -2,11 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!--<item-->
+        <!--android:id="@+id/action_refresh"-->
+        <!--android:title="@string/action_refresh"-->
+        <!--app:showAsAction="never"/> &lt;!&ndash;overflow menu&ndash;&gt;-->
     <item
-        android:id="@+id/action_refresh"
-        android:title="@string/action_refresh"
-        app:showAsAction="never"/> <!--overflow menu-->
-
+        android:id="@+id/action_location"
+        android:orderInCategory="99"
+        android:title="@string/action_location"
+        app:showAsAction="never"/>
 
 
 </menu>

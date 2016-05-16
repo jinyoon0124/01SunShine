@@ -87,14 +87,34 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     //select which action should be performed once the menu is clicked
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
-           case R.id.action_refresh:
-               updateWeather();
-
-               break;
+//           case R.id.action_refresh:
+//               updateWeather();
+//
+//               break;
+            case R.id.action_location:
+                showMap();
+                break;
 
         }
         return true;
     }
+
+    private void showMap(){
+//        SharedPreferences spr = PreferenceManager.getDefaultSharedPreferences(this);
+//        String location = spr.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+        Cursor c = mforecastAdapter.getCursor();
+        c.moveToPosition(0);
+        String corLat = c.getString(COL_COORD_LAT);
+        String corLon = c.getString(COL_COORD_LONG);
+//        String location = Utility.getPreferredLocation(this);
+        Uri geoLocation = Uri.parse("geo:"+corLat+","+corLon);
+        Intent locationIntent = new Intent(Intent.ACTION_VIEW);
+        locationIntent.setData(geoLocation);
+        startActivity(locationIntent);
+
+
+    }
+
 
     public void updateWeather(){
 //        Intent alarmIntent = new Intent(getActivity(), SunShineService.AlarmReceiver.class);

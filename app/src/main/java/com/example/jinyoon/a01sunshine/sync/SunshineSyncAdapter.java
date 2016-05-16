@@ -240,6 +240,11 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
 
             Vector<ContentValues> cVVector = new Vector<>(weatherArray.length());
 
+            Time dayTime = new Time();
+            dayTime.setToNow();
+
+            int julianStartDay = Time.getJulianDay(System.currentTimeMillis(), dayTime.gmtoff);
+
             for(int i = 0; i < weatherArray.length(); i++) {
                 long dateTime;
                 double pressure;
@@ -254,11 +259,6 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 int weatherId;
 
                 JSONObject dayForecast = weatherArray.getJSONObject(i);
-
-                Time dayTime = new Time();
-                dayTime.setToNow();
-
-                int julianStartDay = Time.getJulianDay(System.currentTimeMillis(), dayTime.gmtoff);
 
                 dateTime = dayTime.setJulianDay(julianStartDay + i);
                 pressure = dayForecast.getDouble(OWM_PRESSURE);
@@ -295,6 +295,11 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 ContentValues[] contentValuesArrays = new ContentValues[cVVector.size()];
                 cVVector.toArray(contentValuesArrays);
                 this.getContext().getContentResolver().bulkInsert(WeatherContract.WeatherEntry.CONTENT_URI, contentValuesArrays);
+
+                getContext().getContentResolver().delete(WeatherContract.WeatherEntry.CONTENT_URI,
+                        WeatherContract.WeatherEntry.COLUMN_DATE+ " <= ?",
+                        new String[] {Long.toString(dayTime.setJulianDay(julianStartDay-1))});
+
                 notifyWeather();
             }
 

@@ -58,26 +58,12 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.action_location:
-                showMap();
-                break;
+
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void showMap(){
-//        SharedPreferences spr = PreferenceManager.getDefaultSharedPreferences(this);
-//        String location = spr.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
-        String location = Utility.getPreferredLocation(this);
-        Uri geoLocation = Uri.parse("geo:0,0?").buildUpon()
-                .appendQueryParameter("q", location)
-                .build();
-        Intent locationIntent = new Intent(Intent.ACTION_VIEW);
-        locationIntent.setData(geoLocation);
-        startActivity(locationIntent);
 
-
-    }
 
     @Override
     protected void onResume() {
