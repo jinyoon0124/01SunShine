@@ -144,6 +144,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // guidelines.
             bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
             bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_units_key)));
+            //bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_enable_notifications_key)));
         }
 
 
