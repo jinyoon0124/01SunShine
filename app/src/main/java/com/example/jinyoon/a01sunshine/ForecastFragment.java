@@ -24,7 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.jinyoon.a01sunshine.data.WeatherContract;
-import com.example.jinyoon.a01sunshine.service.SunShineService;
+//import com.example.jinyoon.a01sunshine.service.SunShineService;
 import com.example.jinyoon.a01sunshine.sync.SunshineSyncAdapter;
 
 
